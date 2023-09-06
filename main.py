@@ -39,19 +39,19 @@ print(f)                                문자열 1개 출력하는 예제
 #sys.stdin = open("input.txt", "r")
 
 T = int(input())
-
 # 여러개의 테스트 케이스가 주어지므로, 각각을 처리합니다.
 for test_case in range(1, T + 1):
     # ///////////////////////////////////////////////////////////////////////////////////
-	stc=str(test_case)
-	count=0
-	clap=""
-	count=stc.count("3")+stc.count("6")+stc.count("9")
-    
-	if count == 0:
-		print(test_case, end=" ")
-	else:
-		for i in range(count):
-			clap+="-"
-		print(clap, end=" ")
+	Q = int(input())
+	num=list(map(int, input().split()))
+	gain=0
+	max_num=0;
+	for i in num[::-1]:
+		if i>max_num:
+			max_num=i
+		elif i<=max_num:
+			gain+=(max_num - i)
+	print("#"+str(test_case),gain)
+
+            
     # ///////////////////////////////////////////////////////////////////////////////////
