@@ -1,2 +1,3 @@
 # SWEA
-코테 연습
+
+Studying coding tests for ssafy
