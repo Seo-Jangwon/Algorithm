@@ -1,3 +1,3 @@
 # SWEA
 
-Studying coding tests for ssafy
+ssafy 코딩테스트 공부
