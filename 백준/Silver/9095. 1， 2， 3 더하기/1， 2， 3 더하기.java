@@ -19,7 +19,7 @@ public class Main {
 			count=0;
 			plus(0);
 			bw.write(Integer.toString(count));
-            bw.newLine();
+			bw.newLine();
 			bw.flush();
 			
 		}bw.close();
@@ -31,9 +31,13 @@ public class Main {
 		}else if(num>n) {
 			return;
 		}else {
-			plus(num+1);
-			plus(num+2);
-			plus(num+3);
+			for(int i=1;i<4;i++) {
+				plus(num+i);
+			}
+			
+//			plus(num+1);
+//			plus(num+2);
+//			plus(num+3);
 		}
 	}
 }
