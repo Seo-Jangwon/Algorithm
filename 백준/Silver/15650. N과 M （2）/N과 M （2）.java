@@ -21,14 +21,17 @@ public class Main {
 		arr=new int[m];
 		
 		comp(0,0);
+		bw.close();
 	}
 
 	public static void comp(int start, int count) throws IOException {
 		if(count==m) {
 			for(int i:arr) {
-				System.out.print(i+" ");
+				bw.write(Integer.toString(i)+" ");
+				bw.flush();
 			}
-			System.out.println();
+			bw.newLine();
+			
 			return;
 		}else {
 			for(int i=start;i<n;i++) {
