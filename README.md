@@ -1,4 +1,1 @@
-# SWEA
-
-* SSAFY 코딩테스트 공부
-
+BaekjoonHub
