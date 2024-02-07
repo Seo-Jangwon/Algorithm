@@ -3,22 +3,18 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.Comparator;
 import java.util.PriorityQueue;
 
 public class Main {
 	static BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
 	static BufferedWriter bw=new BufferedWriter(new OutputStreamWriter(System.out));
 	static int N;
-	static PriorityQueue<Integer> pQueue=new PriorityQueue<>(new Comparator<Integer>() {
-
-		@Override
-		public int compare(Integer o1, Integer o2) {
-			if(Math.abs(o1)==Math.abs(o2)) {
-				return o1-o2;
-			}else {
-				return Math.abs(o1)-Math.abs(o2);
-			}
+	
+	static PriorityQueue<Integer> pQueue=new PriorityQueue<>((o1, o2) -> {
+		if(Math.abs(o1)==Math.abs(o2)) {//절댓값 같다면
+			return o1-o2;//그대로 비교
+		}else {//다르다면
+			return Math.abs(o1)-Math.abs(o2);//절댓값 순으로 비교
 		}
 	});
 	
@@ -31,13 +27,13 @@ public class Main {
 		for(int i=0;i<N;i++) {
 			int num=Integer.parseInt(br.readLine());
 			
-			if(num!=0) {
+			if(num!=0) {//0이 아니면 큐에 삽입
 				pQueue.offer(num);
 			}
 			else {
-				if(pQueue.size()!=0) {
+				if(pQueue.size()!=0) {//큐가 비어있지 않다면
 					
-					bw.write(Integer.toString(pQueue.poll()));
+					bw.write(Integer.toString(pQueue.poll()));//poll
 					bw.newLine();
 					bw.flush();
 				}else {
