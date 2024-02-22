@@ -54,7 +54,7 @@ class Solution {
 	
 	static int findSet(int x) {
 		if(x==parent[x])return x;
-		else return findSet(parent[x]);
+		else return parent[x]=findSet(parent[x]);
 	}//end findSet
 	
 	static void union(int x,int y) {
