@@ -4,49 +4,32 @@ import java.io.InputStreamReader;
 
 class Solution {
 	
-	static class Vertex implements Comparable<Vertex>{
-		int no;
-		int weight;
-		public Vertex(int no, int weight) {
-			super();
-			this.no = no;
-			this.weight = weight;
-		}
-		@Override
-		public int compareTo(Vertex o) {
-			return Integer.compare(this.weight, o.weight);
-		}
-		
-	}
-	
-	static BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+static BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		// TODO Auto-generated method stub
 		int T=Integer.parseInt(br.readLine());
 		for(int tc = 1; tc <= T; tc++)
 		{	
 			int N=Integer.parseInt(br.readLine());
-//			System.out.println("N : "+N);
 			long[]X=new long[N];
 			long[]Y=new long[N];
-			double[][]lens=new double[N][N];
-			double[]minEdge=new double[N];
-			boolean[]v=new boolean[N];
+			double[][]lens=new double[N][N];//거리 저장할 배열
+			double[]minEdge=new double[N];//비트리 정점 기준으로 트리 정점과 연결 시 최소간선비용
+			boolean[]v=new boolean[N];//트리 정점 여부 체크
 			
 			
-			String[]Xin=br.readLine().split(" ");
-			String[]Yin=br.readLine().split(" ");
-			
-			double E=Double.parseDouble(br.readLine());
+			String[]Yin=br.readLine().split(" ");//y좌표 입력
+			String[]Xin=br.readLine().split(" ");//x좌표 입력
+			double E=Double.parseDouble(br.readLine());//E입력
 			
 			for(int i=0;i<N;i++) {
 				Y[i]=Long.parseLong(Yin[i]);
 				X[i]=Long.parseLong(Xin[i]);
-				minEdge[i]=Double.MAX_VALUE;
+				minEdge[i]=Double.MAX_VALUE;//최소값 갱신 위해 max로 초기화
 			}//end for
 			
-			minEdge[0]=0;
-			double result=0;
+			minEdge[0]=0;//임의의 시작점 0을 위해 처리
+			double result=0;//최소 신장트리 비용
 			
 			for(int i=0;i<N;i++) {
 				for(int j=0;j<N;j++) {
@@ -56,10 +39,6 @@ class Solution {
 				}
 			}
 			
-			for(int i=0;i<N;i++) {
-			for(int j=0;j<N;j++) {
-			}
-		}
 			
 			int c;
 			for(c=0;c<N;c++) {
