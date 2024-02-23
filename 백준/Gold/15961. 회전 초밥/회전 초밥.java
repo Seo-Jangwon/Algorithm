@@ -33,13 +33,9 @@ public class Main {
 			if(sushi[plate[i]]==0)count+=1;
 			sushi[plate[i]]++;
 		}
+		max=count;
 		
 		for(int i=1;i<N;i++) {
-			if(max<count) {
-				max=count;
-			}
-			
-			
 			//end 이동
 			int end=(i+k-1)%N;
 			if(sushi[plate[end]]==0) {
@@ -52,6 +48,7 @@ public class Main {
 			if(sushi[plate[i-1]]==0) {
 				count-=1;
 			}
+			
 			if(max<count) {
 				max=count;
 			}
