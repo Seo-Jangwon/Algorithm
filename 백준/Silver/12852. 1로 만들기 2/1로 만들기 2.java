@@ -34,21 +34,24 @@ public class Main {
 					arr[i]=tempMin>=case3?case3:tempMin;
 				}
 			}//end for
-			ans+=N;
-			while(N>1) {
+			
+			ans+=N;//정답에 N 추가해주고
+			while(N>1) {//N이 1보다 클때까지
 				int case1,case2,case3, min;
 				case1=case2=case3=Integer.MAX_VALUE;
+				
 				if(N%3==0) {case1=arr[N/3];}
 				if(N%2==0) {case2=arr[N/2];}
 				case3=arr[N-1];
+				
 				int tempMinIdx=Integer.MAX_VALUE;
-				if(!(case1==Integer.MAX_VALUE&&case2==Integer.MAX_VALUE)){
+				if(!(case1==Integer.MAX_VALUE&&case2==Integer.MAX_VALUE)){//둘다 나눠떨어지지 않는 경우가 아니라면
 					tempMinIdx=case1>=case2?N/2:N/3;
 				}
-				if(tempMinIdx!=Integer.MAX_VALUE) {
+				if(tempMinIdx!=Integer.MAX_VALUE) {//2, 3으로 나눠떨어지지 않는 경우가 아니라면
 					min=arr[tempMinIdx]>=case3?N-1:tempMinIdx;
-				}else min=N-1;
-				N=min;
+				}else min=N-1;//나눠 떨어지지 않는다면
+				N=min;//N값 최신화
 				ans+=" "+min;
 			}
 		}else {ans+=ansN;}
@@ -58,5 +61,5 @@ public class Main {
 		bw.write(ans);
 		bw.flush();
 	}//end main
-    
+
 }
