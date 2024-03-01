@@ -17,11 +17,12 @@ class Solution {
 	static class Core{
 		int i;
 		int j;
-
-		public Core(int i, int j) {
+		boolean wall;
+		public Core(int i, int j, boolean wall) {
 			super();
 			this.i = i;
 			this.j = j;
+			this.wall = wall;
 		}
 	}//end Core
 
@@ -44,8 +45,8 @@ class Solution {
 					
 					boolean checkWall=false;
 					if(map[i][j]==1) {
-						if(i==0||j==0||i==N-1||j==N-1) continue;
-						list.add(new Core(i, j));
+						if(i==0||j==0||i==N-1||j==N-1) checkWall=true;
+						list.add(new Core(i, j, checkWall));
 					}
 					
 				}//end for j
@@ -54,15 +55,14 @@ class Solution {
 			dfs(0,0,0);
 			
 			bw.write("#"+Integer.toString(tc)+" "+Integer.toString(minLen));
-            bw.newLine();
+			bw.newLine();			
 			bw.flush();
 		}//end tc
 	}//end main
 	
 	
 	static void dfs(int dep, int core, int len) {
-		
-		if(core+list.size()-dep<maxCore) return;
+
 		
 		if(dep==list.size()) {
 			if(maxCore<core) {
@@ -76,17 +76,19 @@ class Solution {
 			return;
 		}//end 종료조건
 
-
-		int idxI=list.get(dep).i;
-		int idxJ=list.get(dep).j;
+		if(!list.get(dep).wall) {
+			int idxI=list.get(dep).i;
+			int idxJ=list.get(dep).j;
 			
-		for(int d=0;d<4;d++) {
-			if(check(idxI,idxJ,d)) {
-				int wire=setWire(idxI, idxJ, d, 5);
-				dfs(dep+1,core+1,len+wire);
-				setWire(idxI, idxJ, d, 0);
-			}//end if
-		}//end for d
+			for(int d=0;d<4;d++) {
+				if(check(idxI,idxJ,d)) {
+					int wire=setWire(idxI, idxJ, d, 5);
+					dfs(dep+1,core+1,len+wire);
+					setWire(idxI, idxJ, d, 0);
+				}//end if
+			}//end for d
+		
+		}
 		dfs(dep+1,core,len);//연결 안하는 경우
 	}//end dfs
 	
