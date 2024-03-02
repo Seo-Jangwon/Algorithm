@@ -64,7 +64,6 @@ public class Main {
 		if(dep==M) {
 			//바이러스 퍼뜨리기
 			int spreadTime=spreadVirus();
-//			System.out.println("............................................"+spreadTime);
 			if(spreadTime<minTime) {
 				minTime=spreadTime;
 			}
@@ -127,12 +126,9 @@ public class Main {
 		
 		for(int i=0;i<N;i++) {
 			for(int j=0;j<N;j++) {
-//				System.out.print(tempMap[i][j]);
-                if(tempMap[i][j]==-1||tempMap[i][j]==-2) maxLevel=Integer.MAX_VALUE;
+				if(tempMap[i][j]==-1||tempMap[i][j]==-2) maxLevel=Integer.MAX_VALUE;
 			}
-//			System.out.println();
 		}//end for
-//		System.out.println();
 		
 		return maxLevel;
 	}//end spreadVirus
