@@ -4,9 +4,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayDeque;
-import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Stack;
+
 
 public class Main {
 	static BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
@@ -59,52 +58,39 @@ public class Main {
 	static void bfs() {
 		int level=0;
 		while(!queue.isEmpty()) {
-			int lW=water.size();
-			for(int i=0;i<lW;i++) {
+			//물 채우기
+			int waterSize=water.size();
+			for(int i=0;i<waterSize;i++) {
 				Point curr=water.poll();
 				for(int d=0;d<4;d++) {
 					int ny=curr.y+dy[d];
 					int nx=curr.x+dx[d];
-					if(ny>=0&&nx>=0&&ny<R&&nx<C&&!map[ny][nx].equals("X")&&!map[ny][nx].equals("D")&&!map[ny][nx].equals("*")) {
-						water.offer(new Point(ny, nx));
+					if(ny>=0&&nx>=0&&ny<R&&nx<C&&(map[ny][nx].equals(".")||map[ny][nx].equals("S"))) {
 						map[ny][nx]="*";
+						water.offer(new Point(ny, nx));
 					}
 				}
-			}//end for
-			
+			}//end for waterSize
 			level++;
-			int lQ=queue.size();
-			for(int i=0;i<lQ;i++){
+			int qSize=queue.size();
+			for(int i=0;i<qSize;i++) {
 				Point curr=queue.poll();
 				for(int d=0;d<4;d++) {
 					int ny=curr.y+dy[d];
 					int nx=curr.x+dx[d];
-					if(ny>=0&&nx>=0&&ny<R&&nx<C&&!map[ny][nx].equals("*")&&!map[ny][nx].equals("X")) {
-						if(map[ny][nx].equals(".")) {
-							queue.offer(new Point(ny, nx));
-							map[ny][nx]="S";							
-						}
-						
-						if(dest.y==ny&&dest.x==nx) {
+					if(ny>=0&&nx>=0&&ny<R&&nx<C&&!map[ny][nx].equals("*")&&!map[ny][nx].equals("X")&&!map[ny][nx].equals("S")) {
+						if(ny==dest.y&&nx==dest.x) {
 							answer=Integer.toString(level);
 							return;
 						}
+						map[ny][nx]="S";
+						queue.offer(new Point(ny, nx));
 					}
 				}
-			}
+			}//end for waterSize
 			
-			
-			
-//			for(int i=0;i<R;i++) {
-//				for(int j=0;j<C;j++) {
-//					System.out.print(map[i][j]+" ");
-//				}
-//				System.out.println();
-//			}
-//			System.out.println("======================");
-			
-		}//end while
-	}
+		}//end while !isEmpty
+	}//end bfs
 	
 	static class Point{
 		int y;
@@ -117,3 +103,4 @@ public class Main {
 	}
 	
 }
+
