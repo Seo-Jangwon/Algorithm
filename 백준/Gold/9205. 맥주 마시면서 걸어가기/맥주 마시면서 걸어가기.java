@@ -51,30 +51,15 @@ public class Main {
 			for(int k=0;k<N;k++) {
 				for(int i=0;i<N;i++) {
 					for(int j=0;j<N;j++) {
-						map[i][j]=Integer.min(map[i][j], map[i][k]+map[k][j]);
+						map[i][j]=Integer.min(map[i][j], Integer.max(map[i][k],map[k][j]));
 					}
 				}
 			}//end F.W.
 			
 			
-			Queue<Integer> q=new ArrayDeque<>();
-			boolean[]v=new boolean[N];
-			String ans="sad";
-			for(int i=0;i<N;i++) {
-				if(map[0][i]<=1000&&map[0][i]!=0) {
-					q.offer(i);
-					v[i]=true;
-				}
-			}
-			while(!q.isEmpty()) {
-				int point=q.poll();
-				if(point==N-1) {ans="happy"; break;}
-				for(int i=0;i<N;i++) {
-					if(map[point][i]!=0&&map[point][i]<=1000&&!v[i]) {
-						q.offer(i);
-						v[point]=true;
-					}
-				}
+			String ans="happy";
+			if(map[0][N-1]>1000) {
+				ans="sad";
 			}
 			
 			bw.write(ans);
