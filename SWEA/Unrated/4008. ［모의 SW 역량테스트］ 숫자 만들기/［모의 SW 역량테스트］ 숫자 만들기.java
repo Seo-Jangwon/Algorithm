@@ -1,87 +1,91 @@
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
-class Solution {
+public class Solution {
 	static BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
 	static BufferedWriter bw=new BufferedWriter(new OutputStreamWriter(System.out));
-	
-	static int[] number;
-	static boolean[] vNumber;
-	static int[] operator;
+
 	static int N;
+	static int maxVal,minVal;
+	static int[] opr;
+	static int[] nums;
 	
-	static int max, min;
-	
-	public static void main(String[] args) throws NumberFormatException, IOException {
-		// TODO Auto-generated method stub
-		int T=Integer.parseInt(br.readLine());
+	public static void main(String args[]) throws Exception
+	{
 		
+		int T;
+		T=Integer.parseInt(br.readLine());
+
 		for(int tc = 1; tc <= T; tc++)
 		{
-			max=Integer.MIN_VALUE;
-			min=Integer.MAX_VALUE;
+			maxVal=Integer.MIN_VALUE;
+			minVal=Integer.MAX_VALUE;
 			
 			N=Integer.parseInt(br.readLine());
-			number=new int[N];
-			vNumber=new boolean[N];
-			operator=new int[4];
-
-			String[] inputO=br.readLine().split(" ");
+			
+			opr=new int[4];
+			nums=new int[N];
+			
+			String[] in1=br.readLine().split(" ");
+			
 			for(int i=0;i<4;i++) {
-				operator[i]=Integer.parseInt(inputO[i]);
-			}//end for
+				opr[i]=Integer.parseInt(in1[i]);
+			}//end for i
 			
-			String[] inputN=br.readLine().split(" ");
+			String[] in2=br.readLine().split(" ");
 			for(int i=0;i<N;i++) {
-				number[i]=Integer.parseInt(inputN[i]);
-			}//end for
+				nums[i]=Integer.parseInt(in2[i]);
+			}//end for i
 			
-
-			dfs(1, number[0]);
-
-			bw.write("#"+tc+" "+Integer.toString(max-min));
+			dfs(0,nums[0]);
+			
+			bw.write("#"+Integer.toString(tc)+" "+Integer.toString(maxVal-minVal));
 			bw.newLine();
 			bw.flush();
 			
-		}//end TC
-		bw.close();
+		}//end for tc
 	}//end main
 	
 	static void dfs(int dep, int num) {
-		if(dep==N) {
-//			System.out.println("num : "+(int)num);
-			if(num>max) {
-				max=num;
+		if(dep==N-1) {
+			if(num>maxVal) {
+				maxVal=num;
 			}
-			if(num<min) {
-				min=num;
+			if(num<minVal) {
+				minVal=num;
 			}
 			return;
-		}//end if
+		}//end 종료조건
 		
-		if(operator[0]>0) {// +
-			operator[0]-=1;//연산자 -1
-			dfs(dep+1,num+number[dep]);
-			operator[0]+=1;//복구
+		
+		for(int i=0;i<4;i++) {
+			if(opr[i]>0) {
+				switch (i) {
+				case 0:
+					opr[i]-=1;
+					dfs(dep+1,num+nums[dep+1]);
+					opr[i]+=1;
+					break;
+				case 1:
+					opr[i]-=1;
+					dfs(dep+1,num-nums[dep+1]);
+					opr[i]+=1;
+					break;
+				case 2:
+					opr[i]-=1;
+					dfs(dep+1,num*nums[dep+1]);
+					opr[i]+=1;
+					break;
+				case 3:
+					opr[i]-=1;
+					dfs(dep+1,num/nums[dep+1]);
+					opr[i]+=1;
+					break;
+				}
+			}
 		}
-		if(operator[1]>0) {// -
-			operator[1]-=1;//연산자 -1
-			dfs(dep+1,num-number[dep]);
-			operator[1]+=1;//복구
-		}
-		if(operator[2]>0) {// *
-			operator[2]-=1;//연산자 -1
-			dfs(dep+1,num*number[dep]);
-			operator[2]+=1;//복구
-		}
-		if(operator[3]>0) {// /
-			operator[3]-=1;//연산자 -1
-			dfs(dep+1,num/number[dep]);
-			operator[3]+=1;//복구
-		}	
-	}//end dfs 
-	
+		
+	}//end dfs
 }
