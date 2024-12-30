@@ -26,38 +26,31 @@ public class Main {
         }
 
         ans = 0;
-        dfs(0, 0, 0);
+
+        int[] dp = new int[n + 1]; // 퇴사일 고려
+
+        for (int i = n - 1; i >= 0; i--) {
+
+            // arr[i][1]: 현재 상담 수익
+            // dp[i + arr[i][0]]: 상담이 끝난 날짜(i + arr[i][0]) 부터의 최대 수익
+            if (i + arr[i][0] <= n) {
+                dp[i] = Math.max(arr[i][1] + dp[i + arr[i][0]], dp[i + 1]);
+            } else {
+                // dp[i + 1]: 다음날(i+1)부터의 최대 수익
+                dp[i] = dp[i + 1];
+            }
+
+        }
+
+        for (int i = n - 1; i >= 0; i--) {
+            if(dp[i] > ans) {
+                ans = dp[i];
+            }
+        }
 
         bw.write(String.valueOf(ans));
         bw.flush();
         bw.close();
 
-    }
-
-
-    /**
-     * @param nextDate: 다음 날짜
-     * @param nowM:     지금까지 돈
-     * @param toSum:    다음날짜 강의하면 받을 돈
-     */
-    static void dfs(int nextDate, int nowM, int toSum) {
-//        System.out.println("next date: " + nextDate + " now m: " + nowM + " toSum: " + toSum);
-
-        if (nextDate >= n) {
-//            System.out.println("종료조건 들어옴");
-            if (nextDate == n) { // 다음 날짜까지 상담했을 때 딱 맞아떨어지면
-//                System.out.println("next date == n. n: " + nextDate);
-                nowM += toSum;//다음 돈까지 받음
-            }
-            if (nowM > ans) {
-                ans = nowM;
-//                System.out.println("ans 갱신!! ans: " + ans);
-            }
-            return;
-        }
-
-        for (int i = nextDate; i < n; i++) {
-            dfs(i + arr[i][0], nowM + toSum, arr[i][1]);
-        }
     }
 }
