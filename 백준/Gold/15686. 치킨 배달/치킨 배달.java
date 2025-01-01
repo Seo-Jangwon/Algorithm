@@ -4,77 +4,91 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
-	static BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
-	static BufferedWriter bw=new BufferedWriter(new OutputStreamWriter(System.out));
-	static int[][] map;
-	static int N,M,minDist;
-	static ArrayList<Point> chickenHouse;
-	static ArrayList<Point> house;
-	
-	static class Point{
-		int y;
-		int x;
-		boolean visited;
-		public Point(int y, int x) {
-			super();
-			this.y = y;
-			this.x = x;
-			this.visited=false;
-		}
-	}
-	
-	public static void main(String[] args) throws IOException {
-		String[] input1=br.readLine().split(" ");
-		N=Integer.parseInt(input1[0]);
-		M=Integer.parseInt(input1[1]);
-		minDist=Integer.MAX_VALUE;
-		map=new int[N][N];
-		chickenHouse=new ArrayList<Point>();
-		house=new ArrayList<Point>();
-		
-		for(int i=0;i<N;i++) {
-			String[] input2=br.readLine().split(" ");
-			for(int j=0;j<N;j++) {
-				map[i][j]=Integer.parseInt(input2[j]);
-				if(map[i][j]==1)house.add(new Point(i, j));
-				if(map[i][j]==2)chickenHouse.add(new Point(i, j));
-			}//end for
-		}//end for
-		
-		dfs(0, 0);
-		bw.write(Integer.toString(minDist));
-		bw.flush();
-		bw.close();
-		
-	}//end main
 
-	static void dfs(int dep, int index) {
-		if(dep==M) {
-			int dist=0;
-			for(int i=0;i<house.size();i++) {
-				int mindist=Integer.MAX_VALUE;
-				for(int j=0;j<chickenHouse.size();j++) {
-					if(chickenHouse.get(j).visited==true) {
-						mindist=mindist>(Math.abs(house.get(i).x-chickenHouse.get(j).x)+Math.abs(house.get(i).y-chickenHouse.get(j).y))?(Math.abs(house.get(i).x-chickenHouse.get(j).x)+Math.abs(house.get(i).y-chickenHouse.get(j).y)):mindist;
-					}
-				}
-				dist+=mindist;
-			}
-			if(minDist>dist) {
-				minDist=dist;
-			}
-			return;
-		}//end if
-		
-		for(int i=index;i<chickenHouse.size();i++) {
-			if(chickenHouse.get(i).visited==false) {
-				chickenHouse.get(i).visited=true;
-				dfs(dep+1, i+1);
-				chickenHouse.get(i).visited=false;
-			}
-		}
-		
-	}//end dfs
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+
+    static int ans;
+    static int n, m;
+
+    static List<Point> chicken;
+    static List<Point> choosedList;
+    static List<Point> house;
+
+    public static void main(String[] args) throws IOException {
+
+        String[] in1 = br.readLine().split(" ");
+        n = Integer.parseInt(in1[0]);
+        m = Integer.parseInt(in1[1]);
+
+        chicken = new ArrayList<>();
+        choosedList = new ArrayList<>();
+        house = new ArrayList<>();
+
+        for (int i = 0; i < n; i++) {
+            String[] in2 = br.readLine().split(" ");
+            for (int j = 0; j < n; j++) {
+                int num = Integer.parseInt(in2[j]);
+                if (num == 1) {
+                    house.add(new Point(i, j));
+                } else if (num == 2) {
+                    chicken.add(new Point(i, j));
+                }
+            }
+        }// end for
+
+        ans = Integer.MAX_VALUE;
+        dfs(0, 0);
+
+        bw.write(String.valueOf(ans));
+        bw.flush();
+        bw.close();
+    }
+
+    static void dfs(int idx, int dep) {
+        if (dep == m) {// 치킨거리 구해서 거리 최신화
+
+            int totalChickenDistance = 0;// 전체 치킨 거리
+            for (Point house : house) {// 치킨집 뽑아서
+
+                int chickenDistPerHouse = Integer.MAX_VALUE;
+
+                for (Point chicken : choosedList) {// 집마다 치킨거리 구하기
+                    int dist = Math.abs(house.x - chicken.x) + Math.abs(house.y - chicken.y);
+
+                    if (dist < chickenDistPerHouse) {
+                        chickenDistPerHouse = dist;// 집마다 치킨거리
+                    }
+                }// end for house
+                totalChickenDistance += chickenDistPerHouse;
+            }
+
+            if (ans > totalChickenDistance) {
+                ans = totalChickenDistance;
+            }
+            return;
+        }// end 종료조건
+
+        for (int i = idx; i < chicken.size(); i++) {
+
+            Point p = chicken.get(i);
+            choosedList.add(p);
+            dfs(i + 1, dep + 1);
+            choosedList.remove(p);
+
+        }// end for
+    }
+
+    static class Point {
+
+        int y, x;
+
+        Point(int y, int x) {
+            this.y = y;
+            this.x = x;
+        }
+    }// end point
 }
