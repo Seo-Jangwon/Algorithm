@@ -46,50 +46,51 @@ public class Main {
 
     static int bfs() {
         int ans = -1;
-        Point p = new Point(0, 0, 1, 0);
-        Queue<Point> q = new ArrayDeque<>();
-        q.add(p);
+        Queue<Point> queue = new ArrayDeque<>();
+        queue.offer(new Point(0, 0, 1, 0));
         visited[0][0][0] = true;
-
-        while (!q.isEmpty()) {
-            Point curr = q.poll();
+        while (!queue.isEmpty()) {
+            Point curr = queue.poll();
             if (curr.y == n - 1 && curr.x == m - 1) {
                 ans = curr.dist;
                 return ans;
             }
             for (int d = 0; d < 4; d++) {
-                int ny = curr.y + dy[d];
-                int nx = curr.x + dx[d];
+                int newY = curr.y + dy[d];
+                int newX = curr.x + dx[d];
+                if (newY >= 0 && newX >= 0 && newY < n && newX < m) {
 
-                if (ny >= 0 && nx >= 0 && ny < n && nx < m) {
-
-                    if (!visited[ny][nx][curr.destroyed] && map[ny][nx] == 0) {
-                        visited[ny][nx][curr.destroyed] = true;
-                        q.add(new Point(ny, nx, curr.dist + 1, curr.destroyed));
-
+                    //블록을 안뿌쉈다면 그냥 가거나 뿌수거나.
+                    //블록을 뿌순 상태라면 그냥 가야함
+                    if (!visited[newY][newX][curr.isDestroyed] && map[newY][newX] == 0) {
+                        visited[newY][newX][curr.isDestroyed] = true;
+                        queue.offer(new Point(newY, newX, curr.dist + 1, curr.isDestroyed));
                     }
-                    if (curr.destroyed == 0 && !visited[ny][nx][curr.destroyed]
-                        && map[ny][nx] == 1) {
-                        visited[ny][nx][1] = true;
-                        q.add(new Point(ny, nx, curr.dist + 1, 1));
+
+                    if (curr.isDestroyed == 0) {
+                        if (map[newY][newX] == 1 && !visited[newY][newX][curr.isDestroyed]) {
+                            visited[newY][newX][1] = true;
+                            queue.offer(new Point(newY, newX, curr.dist + 1, 1));
+                        }
                     }
+
                 }
             }
         }
+
         return ans;
     }
 
     static class Point {
 
-        int y, x;
-        int dist;
-        int destroyed;
+        int y, x, dist;
+        int isDestroyed;
 
-        public Point(int y, int x, int dist, int destroyed) {
+        public Point(int y, int x, int dist, int isDestroyed) {
             this.y = y;
             this.x = x;
             this.dist = dist;
-            this.destroyed = destroyed;
+            this.isDestroyed = isDestroyed;
         }
     }
 }
