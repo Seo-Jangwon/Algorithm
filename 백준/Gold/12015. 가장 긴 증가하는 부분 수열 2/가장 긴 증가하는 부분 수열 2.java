@@ -1,3 +1,4 @@
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -38,21 +39,19 @@ public class Main {
     }//end main
 
     static void putNum(int num) {
-        if (list.get(list.size() - 1) < num) {
-            list.add(num);
-        } else {
-            int min = 0;
-            int max = list.size() - 1;
-            int mid = 0;
-            while (min <= max) {
-                mid = (min + max) / 2;
-                if (list.get(mid) >= num) {
-                    max = mid - 1;
-                } else {
-                    min = mid + 1;
+        int start = 0, end = list.size() - 1; //다 index
+        if(list.get(end)< num) {list.add(num);}
+        else{
+
+            while (start <= end) {
+                int mid = (start + end) / 2;
+                if (list.get(mid) < num) {// 리스트의 중간값이 내가 넣어야 하는 숫자보다 작다면
+                    start = mid + 1;
+                } else {//리스트의 중간값이 내가 넣어야 하는 숫자보다 크거나 같다면
+                    end = mid - 1;
                 }
             }
-            list.set(min, num);
+            list.set(start, num);
         }
     }
 
