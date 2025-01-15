@@ -16,18 +16,19 @@ public class Main {
         str1 = br.readLine();
         str2 = br.readLine();
 
-        while (str2.length() > str1.length()) {
+        while (str1.length() < str2.length()) {
 
             if (str2.charAt(str2.length() - 1) == 'A') {
                 str2 = str2.substring(0, str2.length() - 1);
             } else {
                 str2 = str2.substring(0, str2.length() - 1);
-                StringBuilder temp = new StringBuilder();
+                StringBuilder newStr = new StringBuilder();
                 for (int i = str2.length() - 1; i >= 0; i--) {
-                    temp.append(str2.charAt(i));
+                    newStr.append(str2.charAt(i));
                 }
-                str2 = temp.toString();
+                str2 = newStr.toString();
             }
+
         }
 
         bw.write(String.valueOf(str1.equals(str2) ? 1 : 0));
